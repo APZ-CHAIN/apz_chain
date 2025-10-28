@@ -16,5 +16,23 @@ persistence:
   size: 5Gi
 node:
   env:
+    CHAIN_ID: apz-testnet-1replicaCount: 1
+image:
+  repository: apz/node
+  tag: dev
+resources:
+  limits:
+    cpu: "1000m"
+    memory: "1Gi"
+  requests:
+    cpu: "250m"
+    memory: "256Mi"
+persistence:
+  enabled: true
+  storageClass: ""
+  accessMode: ReadWriteOnce
+  size: 5Gi
+node:
+  env:
     CHAIN_ID: apz-testnet-1
     NODE_MONIKER: apz-node
