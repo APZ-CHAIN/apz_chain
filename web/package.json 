@@ -1,0 +1,27 @@
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import ReactMarkdown from 'react-markdown';
+
+export default function DocPage() {
+  const { slug } = useRouter().query;
+  const [language, setLanguage] = useState('fa');
+  const [content, setContent] = useState('');
+
+  useEffect(() => {
+    const lang = localStorage.getItem('apz_lang') || navigator.language?.split('-')[0] || 'fa';
+    setLanguage(['fa', 'en', 'ku'].includes(lang) ? lang : 'fa');
+  }, []);
+
+  useEffect(() => {
+    if (!slug || !language) return;
+    fetch(`/docs/${language}/${slug}`)
+      .then(res => res.text())
+      .then(setContent);
+  }, [slug, language]);
+
+  return (
+    <div style={{ padding: '2rem' }}>
+      <ReactMarkdown>{content}</ReactMarkdown>
+    </div>
+  );
+}
