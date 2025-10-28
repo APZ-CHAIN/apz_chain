@@ -1,4 +1,4 @@
-replicaCount: 1
+http://apz-node:26657replicaCount: 1
 image:
   repository: ghcr.io/your-org/apz-indexer
   tag: latest
