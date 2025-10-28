@@ -1,4 +1,22 @@
-✅ ابزار پیشنهادی: [PM2 + pm2-monitor + Uptime Kuma]
+
+# APZ Markdown Translation Dashboard
+
+سیستم ترجمه چندزبانه برای مستندات Markdown با قابلیت تأیید قبل از انتشار، پیش‌نمایش زنده، کنترل نسخه، و اعلان‌های پویا به تلگرام و Discord.
+
+🎯 ویژگی‌ها:
+- ترجمه چندزبانه (فارسی، انگلیسی، کردی)
+- تأیید انسانی قبل از انتشار
+- پیش‌نمایش زنده و مقایسه نسخه‌ها
+- اعلان‌های خودکار به تلگرام و Discord
+- داشبورد مدیریت ترجمه‌ها و محتوا
+- CI/CD برای GitHub Pages و VPS
+- مانیتورینگ با Uptime Kuma و Grafana
+
+📦 نصب سریع:
+```bash
+git clone https://github.com/your-username/apz-markdown-dashboard.git
+cd apz-markdown-dashboard
+docker-compose up --build✅ ابزار پیشنهادی: [PM2 + pm2-monitor + Uptime Kuma]
 
 1. 📦 مانیتورینگ داخلی با PM2
 
@@ -276,25 +294,7 @@ Sources:
 - Cherry Servers – Server Monitoring with Prometheus and Grafana  
 - LinuxConfig – Setup Prometheus & Grafana
 
----
-# APZ Markdown Translation Dashboard
 
-سیستم ترجمه چندزبانه برای مستندات Markdown با قابلیت تأیید قبل از انتشار، پیش‌نمایش زنده، کنترل نسخه، و اعلان‌های پویا به تلگرام و Discord.
-
-🎯 ویژگی‌ها:
-- ترجمه چندزبانه (فارسی، انگلیسی، کردی)
-- تأیید انسانی قبل از انتشار
-- پیش‌نمایش زنده و مقایسه نسخه‌ها
-- اعلان‌های خودکار به تلگرام و Discord
-- داشبورد مدیریت ترجمه‌ها و محتوا
-- CI/CD برای GitHub Pages و VPS
-- مانیتورینگ با Uptime Kuma و Grafana
-
-📦 نصب سریع:
-```bash
-git clone https://github.com/your-username/apz-markdown-dashboard.git
-cd apz-markdown-dashboard
-docker-compose up --build
 
  git push -u origin mainapz-markdown-dashboard/
 ├── apps/
