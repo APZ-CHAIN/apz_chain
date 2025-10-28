@@ -1,0 +1,1 @@
+app.use('/report', require('./routes/report'));
