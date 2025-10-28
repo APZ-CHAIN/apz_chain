@@ -1,0 +1,32 @@
+// apps/api/src/routes/report.js
+const express = require('express');
+const router = express.Router();
+const { v4: uuidv4 } = require('uuid');
+
+const reports = {}; // in-memory store; replace with DB in production
+
+// POST /report — submit a report
+router.post('/', (req, res) => {
+  const { type, description, contact } = req.body;
+  if (!type || !description) {
+    return res.status(400).json({ error: 'Missing fields' });
+  }
+  const id = uuidv4();
+  reports[id] = {
+    id,
+    type,
+    description,
+    contact: contact || null,
+    status: 'pending',
+    created_at: new Date().toISOString()
+  };
+  res.status(201).json({ report: reports[id] });
+});
+
+// GET /report — list all reports (admin)
+router.get('/', (req, res) => {
+  const list = Object.values(reports);
+  res.json({ reports: list });
+});
+
+module.exports = router;
