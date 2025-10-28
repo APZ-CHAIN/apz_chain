@@ -1,0 +1,34 @@
+apz-markdown-dashboard/
+├── docs/                      ← ترجمه‌های تأییدشده
+├── docs_pending/             ← ترجمه‌های پیشنهادی
+├── apps/
+│   ├── api/
+│   │   ├── index.js
+│   │   ├── routes/docs.js
+│   │   ├── routes/translations.js
+│   │   ├── routes/notify.js
+│   │   ├── notify/telegram.js
+│   │   ├── notify/discord.js
+│   │   ├── notify/messages.js
+│   │   ├── notify/translationStatus.js
+│   │   ├── utils/diff.js
+│   │   ├── .env.example
+│   │   └── Dockerfile
+│   └── web/
+│       ├── pages/index.js
+│       ├── pages/docs/[slug].js
+│       ├── pages/admin/translations.js
+│       ├── pages/admin/docs.js
+│       ├── pages/admin/approvals.js
+│       ├── components/DiffViewer.js
+│       ├── lib/i18n.js
+│       ├── locales/fa.json
+│       ├── locales/en.json
+│       ├── locales/ku.json
+│       └── Dockerfile
+├── .github/workflows/deploy-pages.yml
+├── .github/workflows/deploy-server.yml
+├── ecosystem.config.js
+├── docker-compose.yml
+├── README.md
+└── .gitignore
