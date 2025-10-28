@@ -1,0 +1,78 @@
+import React, { useEffect, useState } from 'react';
+
+export default function TranslationManager() {
+  const [language, setLanguage] = useState('fa');
+  const [translations, setTranslations] = useState({});
+  const [newKey, setNewKey] = useState('');
+  const [newValue, setNewValue] = useState('');
+
+  useEffect(() => {
+    fetch(`/api/translations/${language}`)
+      .then(res => res.json())
+      .then(data => setTranslations(data));
+  }, [language]);
+
+  async function updateTranslation(key, value) {
+    await fetch(`/api/translations/${language}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ key, value })
+    });
+    setTranslations({ ...translations, [key]: value });
+  }
+
+  async function addTranslation() {
+    if (!newKey || !newValue) return;
+    await updateTranslation(newKey, newValue);
+    setNewKey('');
+    setNewValue('');
+  }
+
+  return (
+    <div style={{ padding: '2rem' }}>
+      <h1>🌐 مدیریت ترجمه‌ها</h1>
+      <select value={language} onChange={e => setLanguage(e.target.value)}>
+        <option value="fa">فارسی</option>
+        <option value="en">English</option>
+        <option value="ku">کوردی</option>
+      </select>
+
+      <table border="1" cellPadding="8" style={{ marginTop: '1rem' }}>
+        <thead>
+          <tr>
+            <th>کلید</th>
+            <th>مقدار</th>
+            <th>ویرایش</th>
+          </tr>
+        </thead>
+        <tbody>
+          {Object.entries(translations).map(([key, value]) => (
+            <tr key={key}>
+              <td>{key}</td>
+              <td>
+                <input
+                  value={value}
+                  onChange={e => updateTranslation(key, e.target.value)}
+                />
+              </td>
+              <td>✅</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <h3>➕ افزودن ترجمه جدید</h3>
+      <input
+        placeholder="کلید"
+        value={newKey}
+        onChange={e => setNewKey(e.target.value)}
+      />
+      <input
+        placeholder="مقدار"
+        value={newValue}
+        onChange={e => setNewValue(e.target.value)}
+      />
+      <button onClick={addTranslation}>افزودن</button>
+    </div>
+  );
+}
