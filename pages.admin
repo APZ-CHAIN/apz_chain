@@ -1,0 +1,46 @@
+import { useEffect, useState } from 'react';
+
+export default function TranslationManager() {
+  const [language, setLanguage] = useState('fa');
+  const [translations, setTranslations] = useState({});
+  const [newKey, setNewKey] = useState('');
+  const [newValue, setNewValue] = useState('');
+
+  useEffect(() => {
+    fetch(`/translations/${language}`)
+      .then(res => res.json())
+      .then(setTranslations);
+  }, [language]);
+
+  async function update(key, value) {
+    await fetch(`/translations/${language}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ key, value })
+    });
+    setTranslations({ ...translations, [key]: value });
+  }
+
+  return (
+    <div style={{ padding: '2rem' }}>
+      <h1>مدیریت ترجمه‌ها</h1>
+      <select value={language} onChange={e => setLanguage(e.target.value)}>
+        <option value="fa">فارسی</option>
+        <option value="en">English</option>
+        <option value="ku">کوردی</option>
+      </select>
+      <table>
+        <tbody>
+          {Object.entries(translations).map(([key, value]) => (
+            <tr key={key}>
+              <td>{key}</td>
+              <td>
+                <input value={value} onChange={e => update(key, e.target.value)} />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
