@@ -23,6 +23,162 @@
 ✅ ۱. ترجمه پویا برای محتوای Markdown
 
 📦 ساختار پیشنهادی برای مستندات چندزبانه
+ادامه، سیستم ترجمه یکپارچه برای پروژه APZ طراحی شده است—با ساختار حرفه‌ای، قابل گسترش، و مستقل از کد. این سیستم از فایل‌های JSON خارجی استفاده می‌کند، زبان را در لحظه تغییر می‌دهد، و در تمام صفحات، اعلان‌ها، فرم‌ها و داشبوردها اعمال می‌شود.
+
+---
+
+✅ ساختار سیستم ترجمه یکپارچه
+
+📁 مسیر ترجمه‌ها
+
+`
+apps/web/
+├── locales/
+│   ├── fa.json
+│   ├── en.json
+│   └── ku.json (اختیاری)
+├── lib/
+│   └── i18n.js
+├── components/
+│   └── LanguageSwitcher.js
+`
+
+---
+
+📄 فایل‌های ترجمه (نمونه)
+
+fa.json
+
+`json
+{
+  "title": "مدیریت گزارش‌ها",
+  "reply": "ارسال پاسخ",
+  "status": "تغییر وضعیت",
+  "login": "ورود مدیر",
+  "language": "زبان",
+  "contact": "تماس",
+  "description": "شرح",
+  "reportId": "شناسه گزارش",
+  "time": "زمان",
+  "responder": "پاسخ‌دهنده",
+  "message": "پیام",
+  "pending": "در انتظار",
+  "resolved": "حل‌شده",
+  "closed": "بسته‌شده"
+}
+`
+
+en.json
+
+`json
+{
+  "title": "Report Management",
+  "reply": "Send Reply",
+  "status": "Change Status",
+  "login": "Admin Login",
+  "language": "Language",
+  "contact": "Contact",
+  "description": "Description",
+  "reportId": "Report ID",
+  "time": "Time",
+  "responder": "Responder",
+  "message": "Message",
+  "pending": "Pending",
+  "resolved": "Resolved",
+  "closed": "Closed"
+}
+`
+
+---
+
+📁 lib/i18n.js — بارگذاری ترجمه‌ها
+
+`js
+import fa from '../locales/fa.json';
+import en from '../locales/en.json';
+import ku from '../locales/ku.json'; // اختیاری
+
+export const translations = {
+  fa,
+  en,
+  ku
+};
+`
+
+---
+
+📁 components/LanguageSwitcher.js — انتخاب زبان
+
+`jsx
+export default function LanguageSwitcher({ language, setLanguage }) {
+  return (
+    <div style={{ marginBottom: '1rem' }}>
+      🌐 <strong>Language:</strong>{' '}
+      <select value={language} onChange={e => setLanguage(e.target.value)}>
+        <option value="fa">فارسی</option>
+        <option value="en">English</option>
+        <option value="ku">کوردی</option>
+      </select>
+    </div>
+  );
+}
+`
+
+---
+
+📁 استفاده در صفحات (مثال: admin/reports.js)
+
+`jsx
+import { translations } from '../lib/i18n';
+import LanguageSwitcher from '../components/LanguageSwitcher';
+
+export default function ReportsDashboard() {
+  const [language, setLanguage] = useState('fa');
+  const t = translations[language];
+
+  return (
+    <div style={{ padding: '2rem' }}>
+      <LanguageSwitcher language={language} setLanguage={setLanguage} />
+      <h1>{t.title}</h1>
+      <button>{t.reply}</button>
+      <select>
+        <option value="pending">{t.pending}</option>
+        <option value="resolved">{t.resolved}</option>
+        <option value="closed">{t.closed}</option>
+      </select>
+    </div>
+  );
+}
+`
+
+---
+
+✅ ذخیره زبان انتخاب‌شده در localStorage (اختیاری)
+
+`js
+useEffect(() => {
+  const savedLang = localStorage.getItem('apz_lang');
+  if (savedLang) setLanguage(savedLang);
+}, []);
+
+useEffect(() => {
+  localStorage.setItem('apz_lang', language);
+}, [language]);
+`
+
+---
+
+✅ هماهنگی با اعلان‌ها و API
+
+هنگام ارسال گزارش یا پاسخ، زبان انتخاب‌شده را همراه با داده‌ها ارسال کن:
+
+`js
+body: JSON.stringify({ ...form, language })
+`
+
+و در اعلان‌ها (notify/telegram.js, notify/discord.js) از language برای انتخاب قالب استفاده کن.
+
+---
 
 `
 docs/
